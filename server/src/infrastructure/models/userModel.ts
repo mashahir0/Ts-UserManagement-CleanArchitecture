@@ -1,21 +1,27 @@
-import mongoose, { Document, Model } from "mongoose";
+// models/userModel.ts
+import mongoose, { Document } from 'mongoose';
 
-// 1️⃣ Define a TypeScript Interface for Type Safety
-interface IUser extends Document {
+// Define the IUser interface for the Mongoose document
+export interface IUser {
   _id: mongoose.Types.ObjectId;
   name: string;
   email: string;
   password: string;
+  role: 'user' | 'admin';
 }
 
-// 2️⃣ Define the Schema with Strong Typing
+// Define the Mongoose schema
 const userSchema = new mongoose.Schema<IUser>({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  role: { type: String, default: 'user' },
 });
 
-// 3️⃣ Create the Mongoose Model with Type Safety
-const userModel: Model<IUser> = mongoose.model<IUser>("User", userSchema);
+// Create the Mongoose model
+const userModel = mongoose.model<IUser>('User', userSchema);
 
 export default userModel;
+
+
+

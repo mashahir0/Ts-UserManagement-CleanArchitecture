@@ -1,20 +1,19 @@
+import UserModel from "../models/userModel";
 import { User } from "../../domain/User";
-import userModel from "../models/userModel";
 
-const userRepository = {
-    async save(user : User){
-        const newUser = new userModel({
-            name : user.name,
-            email : user.email,
-            password : user.password
-        })
-        return await newUser.save()
-    },
-    
-    async findByEmailId (email : string){
-        return await userModel.findOne({email})
-    }
-}
+const UserRepository = {
+  async save(user: User) {
+    return await new UserModel(user).save();
+  },
+  async findByEmail(email: string) {
+    return await UserModel.findOne({ email });
+  },
+  async findById(id: string) {
+    return await UserModel.findById(id);
+  },
+  async getAllUsers() {
+    return await UserModel.find();
+  }
+};
 
-
-export default userRepository
+export default UserRepository;
