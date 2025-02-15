@@ -1,4 +1,4 @@
-import { useGetUsersQuery } from "../../../usecases/userApi";
+import { useGetUsersQuery } from "../../../data/api/userApi";
 
 const AdminDashboard = () => {
   const { data: users, isLoading, error } = useGetUsersQuery();

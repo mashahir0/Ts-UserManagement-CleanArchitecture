@@ -1,14 +1,13 @@
 import { Document } from 'mongoose';
 
 export interface IUser extends Document {
-  id: string;   // Mongoose uses _id, but we use id for consistency
+  id: string;  
   name: string;
   email: string;
   password: string;
-  role: "user" | "admin";  // Defining user role
+  role: "user" | "admin";  
 }
 
-// You can still keep the User class for creating new User instances
 export class User {
   constructor(
     public id: string | null,

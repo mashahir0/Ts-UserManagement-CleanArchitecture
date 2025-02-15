@@ -13,7 +13,7 @@ const UserRepository = {
   },
   async getAllUsers() {
     return await UserModel.find();
-  }
+  },
 };
 
 export default UserRepository;

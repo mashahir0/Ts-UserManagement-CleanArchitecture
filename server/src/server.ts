@@ -1,24 +1,26 @@
 
-
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import authRoutes from "./routes/authRoutes";
-import adminRoutes from "./routes/adminRoutes";
+import authRoutes from "./infrastructure/routes/authRoutes";
+import adminRoutes from "./infrastructure/routes/adminRoutes";
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 const app = express();
 
 const corsOptions = {
   origin: "http://localhost:5173",  
-  methods: ["GET", "POST", "PUT", "DELETE"],  // Allow specific methods
-  credentials: true,  // Allow credentials (cookies, Authorization headers)
+  methods: ["GET", "POST", "PUT", "DELETE"],  
+  credentials: true,  
 };
+
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use("/api/auth", authRoutes);
-app.use("/api/auth/admin", adminRoutes);
+app.use("/api/admin", adminRoutes);
 
 
 const MONGO_URI = process.env.MONGO_URI!;
