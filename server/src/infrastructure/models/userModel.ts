@@ -1,5 +1,5 @@
 // models/userModel.ts
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Model, Document } from "mongoose";
 
 // Define the IUser interface for the Mongoose document
 export interface IUser {

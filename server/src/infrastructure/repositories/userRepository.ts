@@ -9,7 +9,7 @@ const UserRepository = {
     return await UserModel.findOne({ email });
   },
   async findById(id: string) {
-    return await UserModel.findById(id);
+    return await UserModel.findById(id).select('-password').exec();
   },
   async getAllUsers() {
     return await UserModel.find();

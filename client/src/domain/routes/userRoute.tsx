@@ -2,6 +2,8 @@ import { Navigate } from "react-router-dom";
 import LoginForm from "../../presentation/components/user/Login";
 import RegisterForm from "../../presentation/components/user/Register";
 import HomePage from "../../presentation/pages/user/HomePage";
+import UserAuthenticated from "../redux/protect/UserAuthenticated";
+import UserPrivate from "../redux/protect/userPrivate";
 
 const userRoutes = [
   {
@@ -10,15 +12,17 @@ const userRoutes = [
   },
   {
     path: "/login",
-    element: <LoginForm />,
+    element:(
+      <UserAuthenticated><LoginForm /></UserAuthenticated>
+      ),
   },
   {
     path: "/register",
-    element: <RegisterForm />,
+    element: (<UserAuthenticated><RegisterForm /></UserAuthenticated>),
   },
   {
     path:'/home',
-    element:<HomePage/>
+    element:(<UserPrivate><HomePage/></UserPrivate>)
   }
 ];
 

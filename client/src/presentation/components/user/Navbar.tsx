@@ -3,260 +3,163 @@
 import type React from "react"
 import { useState } from "react"
 import { Search, Home, User, ChevronDown } from "lucide-react"
-import { useDarkMode } from "../../../domain/hooks/useDarkMode"
+import { useDispatch } from "react-redux"
+import { clearUser } from "../../../domain/redux/slilce/userSlice"
+import { useNavigate } from "react-router-dom"
 
 const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false)
   const [isDropdown1Open, setIsDropdown1Open] = useState(false)
   const [isDropdown2Open, setIsDropdown2Open] = useState(false)
-  const { theme, toggleTheme } = useDarkMode();
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const dispatch =  useDispatch()
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    localStorage.removeItem('userToken')
+    dispatch(clearUser())
+    navigate('/login')
+  }
 
   return (
-    <nav className="bg-white dark:bg-gray-800 shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <span className="text-2xl font-bold text-indigo-600">Logo</span>
+    <nav className="bg-[#1a0c75] shadow-lg">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-between h-16">
+      <div className="flex items-center">
+        {/* Logo */}
+        <div className="flex-shrink-0">
+          <span className="text-2xl font-bold text-[#ece6ff]">Logo</span>
+        </div>
+
+        {/* Search Bar */}
+        <div className="ml-6">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-[#c4b8ff]" />
             </div>
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                <a
-                  href="#"
-                  className="text-gray-600 hover:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out flex items-center"
-                >
-                  <Home className="w-4 h-4 mr-2" />
-                  Home
-                </a>
-                <button
-        onClick={toggleTheme}
-        className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 dark:bg-yellow-500 dark:hover:bg-yellow-600 transition"
-      >
-        Toggle to {theme === 'dark' ? 'Light' : 'Dark'} Mode
-      </button>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out flex items-center"
-                >
-                  <User className="w-4 h-4 mr-2" />
-                  Profile
-                </a>
-                <div className="relative group">
-                  <button
-                    onClick={() => setIsDropdown1Open(!isDropdown1Open)}
-                    className="text-gray-600 hover:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out flex items-center"
-                  >
-                    Dropdown 1
-                    <ChevronDown className="w-4 h-4 ml-2" />
-                  </button>
-                  {isDropdown1Open && (
-                    <div className="absolute z-10 left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                      <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                        <a
-                          href="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-500 hover:text-white transition duration-300 ease-in-out"
-                          role="menuitem"
-                        >
-                          Option 1
-                        </a>
-                        <a
-                          href="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-500 hover:text-white transition duration-300 ease-in-out"
-                          role="menuitem"
-                        >
-                          Option 2
-                        </a>
-                        <a
-                          href="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-500 hover:text-white transition duration-300 ease-in-out"
-                          role="menuitem"
-                        >
-                          Option 3
-                        </a>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="relative group">
-                  <button
-                    onClick={() => setIsDropdown2Open(!isDropdown2Open)}
-                    className="text-gray-600 hover:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out flex items-center"
-                  >
-                    Dropdown 2
-                    <ChevronDown className="w-4 h-4 ml-2" />
-                  </button>
-                  {isDropdown2Open && (
-                    <div className="absolute z-10 left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                      <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                        <a
-                          href="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-500 hover:text-white transition duration-300 ease-in-out"
-                          role="menuitem"
-                        >
-                          Option A
-                        </a>
-                        <a
-                          href="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-500 hover:text-white transition duration-300 ease-in-out"
-                          role="menuitem"
-                        >
-                          Option B
-                        </a>
-                        <a
-                          href="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-500 hover:text-white transition duration-300 ease-in-out"
-                          role="menuitem"
-                        >
-                          Option C
-                        </a>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+            <input
+              className="block w-full pl-10 pr-3 py-2 border border-transparent rounded-md leading-5 bg-[#2e1e9c] text-[#ece6ff] placeholder-[#b09fff] focus:outline-none focus:ring-1 focus:ring-[#b09fff] focus:border-[#b09fff] sm:text-sm transition duration-300 ease-in-out"
+              placeholder="Search"
+              type="search"
+            />
           </div>
-          <div className="hidden md:block">
-            <div className="ml-4 flex items-center md:ml-6">
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-300 ease-in-out"
-                  placeholder="Search"
-                  type="search"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="-mr-2 flex md:hidden">
+        </div>
+
+        {/* Menu Links */}
+        <div className="hidden md:flex ml-10 space-x-4">
+          <a
+            href="#"
+            className="text-[#c4b8ff] hover:bg-gradient-to-r from-purple-600 to-purple-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out flex items-center"
+          >
+            <Home className="w-4 h-4 mr-2" />
+            Home
+          </a>
+
+          <div className="relative group">
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              type="button"
-              className="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white transition duration-300 ease-in-out"
-              aria-controls="mobile-menu"
-              aria-expanded="false"
+              onClick={() => setIsDropdown1Open(!isDropdown1Open)}
+              className="text-[#c4b8ff] hover:bg-gradient-to-r from-purple-600 to-purple-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out flex items-center"
             >
-              <span className="sr-only">Open main menu</span>
-              {!isOpen ? (
-                <svg
-                  className="block h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              ) : (
-                <svg
-                  className="block h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              )}
+              Dropdown 1
+              <ChevronDown className="w-4 h-4 ml-2" />
             </button>
+            {isDropdown1Open && (
+              <div className="absolute z-10 left-0 mt-2 w-48 rounded-md shadow-lg bg-[#2e1e9c]">
+                <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                  <a
+                    href="#"
+                    className="block px-4 py-2 text-sm text-[#ece6ff] hover:bg-purple-600 hover:text-white transition duration-300 ease-in-out"
+                    role="menuitem"
+                  >
+                    Option 1
+                  </a>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 text-sm text-[#ece6ff] hover:bg-purple-600 hover:text-white transition duration-300 ease-in-out"
+                    role="menuitem"
+                  >
+                    Option 2
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="relative group">
+            <button
+              onClick={() => setIsDropdown2Open(!isDropdown2Open)}
+              className="text-[#c4b8ff] hover:bg-gradient-to-r from-purple-600 to-purple-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out flex items-center"
+            >
+              Dropdown 2
+              <ChevronDown className="w-4 h-4 ml-2" />
+            </button>
+            {isDropdown2Open && (
+              <div className="absolute z-10 left-0 mt-2 w-48 rounded-md shadow-lg bg-[#2e1e9c]">
+                <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                  <a
+                    href="#"
+                    className="block px-4 py-2 text-sm text-[#ece6ff] hover:bg-purple-600 hover:text-white transition duration-300 ease-in-out"
+                    role="menuitem"
+                  >
+                    Option A
+                  </a>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 text-sm text-[#ece6ff] hover:bg-purple-600 hover:text-white transition duration-300 ease-in-out"
+                    role="menuitem"
+                  >
+                    Option B
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {isOpen && (
-        <div className="md:hidden" id="mobile-menu">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a
-              href="#"
-              className="text-gray-600 hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out"
-            >
-              Home
-            </a>
-            <a
-              href="#"
-              className="text-gray-600 hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out"
-            >
-              Profile
-            </a>
-            <button
-              onClick={() => setIsDropdown1Open(!isDropdown1Open)}
-              className="text-gray-600 hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out w-full text-left"
-            >
-              Dropdown 1
-            </button>
-            {isDropdown1Open && (
-              <div className="pl-4">
+      {/* Profile and Logout */}
+      <div className="hidden md:flex items-center space-x-4">
+        <div className="relative group">
+          <button
+            onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+            className="text-[#c4b8ff] hover:bg-gradient-to-r from-purple-600 to-purple-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out flex items-center"
+          >
+            <User className="w-4 h-4 mr-2" />
+            Profile
+            <ChevronDown className="w-4 h-4 ml-2" />
+          </button>
+          {isProfileDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-[#2e1e9c]">
+              <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="profile-menu">
                 <a
                   href="#"
-                  className="text-gray-600 hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out"
+                  className="block px-4 py-2 text-sm text-[#ece6ff] hover:bg-purple-600 hover:text-white transition duration-300 ease-in-out"
+                  role="menuitem"
                 >
-                  Option 1
+                  Settings
                 </a>
                 <a
                   href="#"
-                  className="text-gray-600 hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out"
+                  className="block px-4 py-2 text-sm text-[#ece6ff] hover:bg-purple-600 hover:text-white transition duration-300 ease-in-out"
+                  role="menuitem"
                 >
-                  Option 2
+                  Help
                 </a>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out"
-                >
-                  Option 3
-                </a>
-              </div>
-            )}
-            <button
-              onClick={() => setIsDropdown2Open(!isDropdown2Open)}
-              className="text-gray-600 hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out w-full text-left"
-            >
-              Dropdown 2
-            </button>
-            {isDropdown2Open && (
-              <div className="pl-4">
-                <a
-                  href="#"
-                  className="text-gray-600 hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out"
-                >
-                  Option A
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out"
-                >
-                  Option B
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out"
-                >
-                  Option C
-                </a>
-              </div>
-            )}
-          </div>
-          <div className="pt-4 pb-3 border-t border-gray-700">
-            <div className="px-2">
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-300 ease-in-out"
-                  placeholder="Search"
-                  type="search"
-                />
-                
               </div>
             </div>
-          </div>
+          )}
         </div>
-      )}
-    </nav>
+
+        <button
+          className="bg-gradient-to-r from-red-600 to-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out hover:from-red-700 hover:to-red-800"
+        
+        onClick={handleLogout}
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
   )
 }
 
