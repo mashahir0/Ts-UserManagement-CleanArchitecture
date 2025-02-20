@@ -1,10 +1,10 @@
 import { Document } from 'mongoose';
 
 export interface IUser extends Document {
-  id: string;  
+  id?: string;  
   name: string;
   email: string;
-  password: string;
+  password?: string;
   role: "user" | "admin";  
 }
 

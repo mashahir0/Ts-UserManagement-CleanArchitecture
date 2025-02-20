@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { useLoginMutation } from "../../../data/api/userApi";
+import { useGoogleLoginMutation, useLoginMutation } from "../../../data/api/userApi";
 import { Link, useNavigate } from "react-router-dom";
 import { LockOpenIcon as LockClosedIcon, InboxIcon as EnvelopeIcon } from "lucide-react"
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../domain/redux/slilce/userSlice";
+import { useGoogleLogin } from "@react-oauth/google";
 
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, { isLoading, error }] = useLoginMutation();
+  const [googleLogin] = useGoogleLoginMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
@@ -24,15 +26,33 @@ const LoginForm = () => {
         user:result.user,
         accessToken : result.accessToken
       }))
-      
-      console.log(error);
-      
       // alert("Login Successful!");
       navigate("/home");
     } catch (err) {
       alert("Error logging in!");
     }
   };
+
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (response) => {
+      try {
+        const { access_token } = response; // Google access token
+        console.log(access_token);
+  
+        // Send Google token to backend for verification & JWT generation
+        const result = await googleLogin({ token: access_token }).unwrap();
+  
+        localStorage.setItem("userToken", result.accessToken);
+        dispatch(setUser({ user: result.user, accessToken: result.accessToken }));
+  
+        navigate("/home");
+      } catch (err) {
+        console.error("Google login failed:", err);
+      }
+    },
+    onError: (error) => console.log("Google Login Failed:", error),
+  });
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#1a0c75] py-12 px-4 sm:px-6 lg:px-8">
@@ -97,6 +117,12 @@ const LoginForm = () => {
     </form>
     {error && <div className="mt-2 text-center text-sm text-red-600">{error.toString()}</div>}
   </div>
+  <button
+        onClick={() => handleGoogleLogin()}
+        className="mt-4 w-full py-2 bg-red-600 text-white rounded-md"
+      >
+        Sign in with Google
+      </button>
 </div>
 
   );

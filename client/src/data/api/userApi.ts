@@ -57,7 +57,20 @@ export const userApi = createApi({
         body: credentials,
       }),
     }),
-
+    googleLogin: builder.mutation<any, { token: string }>({
+      query: (googleData) => ({
+        url: "/auth/google",
+        method: "POST",
+        body: googleData,
+      }),
+    }),
+    // googleAuth: builder.mutation<any, string>({
+    //   query: (code) => ({
+    //     url: `/auth/google/callback?code=${code}`,
+    //     method: "GET",
+    //     credentials: "include", // To handle refresh token in cookies
+    //   }),
+    // }),
 
   })
 })
@@ -65,4 +78,6 @@ export const userApi = createApi({
 export const {
   useRegisterMutation,
   useLoginMutation,
+  useGoogleLoginMutation,
+  
 } = userApi

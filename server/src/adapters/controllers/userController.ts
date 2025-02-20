@@ -32,6 +32,29 @@ const authController = {
       res.status(400).json({ error: error.message });
     }
   },
+  async googleAuth(req: Request, res: Response) {
+    try {
+      const { token } = req.body; // Expect access token from frontend
+  
+      if (!token) {
+        return res.status(400).json({ error: "No Google token provided" });
+      }
+  
+      const { accessToken, refreshToken, user } = await userService.googleLogin(token);
+  
+      // Set refresh token in an HTTP-only cookie
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: true, // Set to true in production (HTTPS)
+        sameSite: "strict",
+      });
+  
+      return res.status(200).json({ accessToken, user });
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  },
+  
 
   async refreshToken(req: Request, res: Response) {
     try {
