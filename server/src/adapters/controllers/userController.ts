@@ -22,7 +22,7 @@ const authController = {
         req.body.email,
         req.body.password
       );
-      res.cookie("refreshToken", refreshToken, {
+      res.cookie("userRefreshToken", refreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
@@ -43,7 +43,7 @@ const authController = {
       const { accessToken, refreshToken, user } = await userService.googleLogin(token);
   
       // Set refresh token in an HTTP-only cookie
-      res.cookie("refreshToken", refreshToken, {
+      res.cookie("userRefreshToken", refreshToken, {
         httpOnly: true,
         secure: true, // Set to true in production (HTTPS)
         sameSite: "strict",

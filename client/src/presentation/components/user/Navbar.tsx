@@ -3,14 +3,19 @@
 import type React from "react"
 import { useState } from "react"
 import { Search, Home, User, ChevronDown } from "lucide-react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { clearUser } from "../../../domain/redux/slilce/userSlice"
 import { useNavigate } from "react-router-dom"
+
+import { RootState } from "../../../domain/redux/store"
 
 const Navbar: React.FC = () => {
   const [isDropdown1Open, setIsDropdown1Open] = useState(false)
   const [isDropdown2Open, setIsDropdown2Open] = useState(false)
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const {user} = useSelector((state : RootState ) => state.user)
+  console.log(user);
+  
   const dispatch =  useDispatch()
   const navigate = useNavigate()
   const handleLogout = () => {
@@ -26,7 +31,7 @@ const Navbar: React.FC = () => {
       <div className="flex items-center">
         {/* Logo */}
         <div className="flex-shrink-0">
-          <span className="text-2xl font-bold text-[#ece6ff]">Logo</span>
+          <span className="text-2xl font-bold text-[#ece6ff]">{user?.name || 'name'}</span>
         </div>
 
         {/* Search Bar */}

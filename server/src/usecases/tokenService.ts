@@ -22,13 +22,14 @@ const tokenService = {
     };
 
     return jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
+      { id: user._id, email: user.email, role: user.role },
       JWT_SECRET,
       options
     );
   },
   async refreshToken(token: string) {
     try {
+      console.log('refresh token called')
       const payload = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
 
       if (!payload.id) throw new Error("Invalid token");

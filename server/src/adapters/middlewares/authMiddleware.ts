@@ -44,6 +44,7 @@ export const verifyToken = (
     return res.status(401).json({ message: "Invalid or expired token" });
   }
 };
+
 export const verifyTokenAdmin = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -51,7 +52,6 @@ export const verifyTokenAdmin = async (
 ) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  console.log(token);
   if (!token) {
     return res.status(401).json({ message: "No access token" });
   }
@@ -61,16 +61,17 @@ export const verifyTokenAdmin = async (
       email: string;
       role: string;
     };
+
     req.user = decoded;
+    
     const isAdmin = (await UserRepository.findById(
       req.user.id
     )) as IUser | null;
 
     if (!isAdmin) return res.status(401).json({ message: "user not found" });
-    if (isAdmin.role !== "admin") {
+    if (isAdmin.role === "user") {
       return res.status(401).json({ message: "admin protected route" });
     }
-    console.log("decoded :", req.user);
     next();
   } catch (error) {
     console.log("error", error);

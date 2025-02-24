@@ -64,13 +64,6 @@ export const userApi = createApi({
         body: googleData,
       }),
     }),
-    // googleAuth: builder.mutation<any, string>({
-    //   query: (code) => ({
-    //     url: `/auth/google/callback?code=${code}`,
-    //     method: "GET",
-    //     credentials: "include", // To handle refresh token in cookies
-    //   }),
-    // }),
 
   })
 })

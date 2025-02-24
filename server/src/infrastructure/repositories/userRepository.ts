@@ -1,5 +1,6 @@
 import UserModel from "../models/userModel";
-import { User } from "../../domain/User";
+import { IUser, User } from "../../domain/User";
+import userModel from "../models/userModel";
 
 const UserRepository = {
   async save(user: User) {
@@ -14,6 +15,9 @@ const UserRepository = {
   async getAllUsers() {
     return await UserModel.find();
   },
+  async findAndDelete(id :string){
+    return await userModel.findByIdAndDelete(id)
+  }
 };
 
 export default UserRepository;

@@ -9,7 +9,7 @@ const adminController = {
         req.body.email,
         req.body.password
       );
-      res.cookie("refreshToken", refreshToken, {
+      res.cookie("adminRefreshToken", refreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
@@ -25,6 +25,28 @@ const adminController = {
       res.status(200).json(users);
     } catch (error: any) {
       res.status(500).json({ error: error.message });
+    }
+  },
+  async blockUser(req: Request, res: Response) {
+    try {
+      const { id } = req.body;
+
+      const result = await adminServices.blockUser(id);
+      res.status(200).json(result);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  },
+  async deleteUser(req: Request, res: Response) {
+    try {
+      const { id } = req.body;
+      if (!id) {
+        return res.status(400).json({ error: "User ID is required" });
+      }
+      const result = await adminServices.deleteUser(id);
+      res.status(200).json(result);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
     }
   },
 };

@@ -1,11 +1,21 @@
 import { Document } from 'mongoose';
 
-export interface IUser extends Document {
-  id?: string;  
+// export interface IUser extends Document {
+//   id?: string;  
+//   name: string;
+//   email: string;
+//   password?: string;
+//   active : "Active" | "Blocked";
+//   role: "user" | "admin";  
+// }
+
+export interface IUser {
+  _id: string;
   name: string;
   email: string;
-  password?: string;
-  role: "user" | "admin";  
+  password: string;
+  userStatus : "Active" | "Blocked";
+  role: 'user' | 'admin';
 }
 
 export class User {
@@ -14,6 +24,7 @@ export class User {
     public name: string,
     public email: string,
     public password: string,
+    public userStatus : "Active" | "Blocked" = 'Active',
     public role: "user" | "admin" = "user"
   ) {}
 }

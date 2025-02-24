@@ -18,6 +18,8 @@ const userService = {
     const user = await UserRepository.findByEmail(email);
     if (!user) throw new Error("Invalid credentials");
 
+    if(user.userStatus === 'Blocked') throw new Error('User Blocked by admin')
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw new Error("Invalid credentials");
 
@@ -50,6 +52,8 @@ const userService = {
   
       // Check if user exists in the database
       let user = await UserRepository.findByEmail(googleUser.email);
+
+      if(user?.userStatus === 'Blocked') throw new Error('User Blocked by admin')
   
       // Create a new user if not found
       if (!user) {
@@ -67,9 +71,9 @@ const userService = {
       const newRefreshToken = tokenService.generateToken(userData, "7d"); // Longer TTL
   
       return { user: userData, accessToken: newAccessToken, refreshToken: newRefreshToken };
-    } catch (error) {
-      console.error("Google authentication failed:", error);
-      throw new Error("Google authentication failed");
+    } catch (error :any ) {
+
+      throw new Error(error);
     }
   }
   

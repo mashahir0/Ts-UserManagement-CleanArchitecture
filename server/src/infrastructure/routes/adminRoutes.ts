@@ -7,5 +7,7 @@ const router = express.Router();
 router.post('/login',adminController.login)
 router.post('/refresh-token',tokenService.refreshToken)
 router.get("/users",verifyTokenAdmin,adminController.getUsers);
+router.post('/block-user',verifyTokenAdmin,adminController.blockUser)
+router.delete('/delete-user',verifyTokenAdmin,adminController.deleteUser)
 
 export default router;
