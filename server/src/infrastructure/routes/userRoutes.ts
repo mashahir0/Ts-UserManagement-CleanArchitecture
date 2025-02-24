@@ -6,7 +6,7 @@ import { verifyToken } from "../../adapters/middlewares/authMiddleware";
 
 const router = express.Router();
 router.post("/register", userController.register);
-router.post("/login",loginLimiter,userController.login);
+router.post("/login",userController.login);
 
 router.post("/auth/google", userController.googleAuth);
 
