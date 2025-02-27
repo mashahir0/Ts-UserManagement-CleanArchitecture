@@ -5,7 +5,7 @@ import {  verifyTokenAdmin } from "../../adapters/middlewares/authMiddleware";
 
 const router = express.Router();
 router.post('/login',adminController.login)
-router.post('/refresh-token',tokenService.refreshToken)
+router.post('/refresh-token',adminController.refreshToken)
 router.get("/users",verifyTokenAdmin,adminController.getUsers);
 router.post('/block-user',verifyTokenAdmin,adminController.blockUser)
 router.delete('/delete-user',verifyTokenAdmin,adminController.deleteUser)

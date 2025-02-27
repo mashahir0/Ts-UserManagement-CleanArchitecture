@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import UserRepository from "../../infrastructure/repositories/userRepository";
 import adminServices from "../../usecases/adminService";
+import tokenService from "../../usecases/tokenService";
+
 
 const adminController = {
   async login(req: Request, res: Response) {
@@ -9,14 +11,28 @@ const adminController = {
         req.body.email,
         req.body.password
       );
-      res.cookie("adminRefreshToken", refreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "strict",
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,  // ✅ Secure cookie (not accessible by JavaScript)
+        secure: process.env.NODE_ENV === "production", // ✅ Only use secure cookies in production
+        sameSite: "strict", // ✅ Prevent CSRF attacks
+        path: "/api/admin/refresh-token", // ✅ Only send this cookie to the refresh route
       });
       res.status(200).json({ admin, accessToken });
     } catch (error: any) {
       res.status(400).json({ error: error.message });
+    }
+  },
+  async refreshToken(req: Request, res: Response) {
+    try {
+      const { refreshToken } = req.cookies;
+      if (!refreshToken)
+        return res.status(401).json({ error: "No token provided" });
+
+      const newToken = await tokenService.refreshToken(refreshToken);
+
+      res.status(200).json(newToken);
+    } catch (error: any) {
+      res.status(401).json({ error: error.message });
     }
   },
   async getUsers(req: Request, res: Response) {

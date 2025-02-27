@@ -12,7 +12,7 @@ router.post("/auth/google", userController.googleAuth);
 
   
 
-router.post('/refresh-token',userController.refreshToken)
+router.get('/refresh-token',userController.refreshToken)
 router.get('/get-details',verifyToken,userController.getUserData)
 
 export default router;

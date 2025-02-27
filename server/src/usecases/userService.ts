@@ -25,7 +25,7 @@ const userService = {
 
     const userData = user as IUser;
 
-    const accessToken = tokenService.generateToken(userData, "15m");
+    const accessToken = tokenService.generateToken(userData, "1d");
     const refreshToken = tokenService.generateToken(userData, "7d");
 
     return { user: userData, accessToken, refreshToken };
@@ -67,7 +67,7 @@ const userService = {
       const userData = user as IUser;
   
       // Generate access & refresh tokens
-      const newAccessToken = tokenService.generateToken(userData, "15m"); // Shorter TTL
+      const newAccessToken = tokenService.generateToken(userData, "1d"); // Shorter TTL
       const newRefreshToken = tokenService.generateToken(userData, "7d"); // Longer TTL
   
       return { user: userData, accessToken: newAccessToken, refreshToken: newRefreshToken };

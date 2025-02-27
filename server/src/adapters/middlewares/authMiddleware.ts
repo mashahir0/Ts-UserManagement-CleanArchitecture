@@ -50,6 +50,7 @@ export const verifyTokenAdmin = async (
   res: Response,
   next: NextFunction
 ) => {
+
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (!token) {
@@ -64,14 +65,8 @@ export const verifyTokenAdmin = async (
 
     req.user = decoded;
     
-    const isAdmin = (await UserRepository.findById(
-      req.user.id
-    )) as IUser | null;
-
-    if (!isAdmin) return res.status(401).json({ message: "user not found" });
-    if (isAdmin.role === "user") {
-      return res.status(401).json({ message: "admin protected route" });
-    }
+    if(!decoded) return res.status(401).json({message:'user not found'})
+    if(decoded.role === 'user') return res.status(403).json({message :'admin protected route'})
     next();
   } catch (error) {
     console.log("error", error);

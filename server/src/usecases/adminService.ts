@@ -2,7 +2,6 @@ import { IUser } from "../domain/User";
 import tokenService from "./tokenService";
 import UserRepository from "../infrastructure/repositories/userRepository";
 import bcrypt from "bcryptjs";
-import { error } from "console";
 import userModel from "../infrastructure/models/userModel";
 
 const adminServices = {
@@ -33,7 +32,6 @@ const adminServices = {
     await UserRepository.findAndDelete(id)
     return {userDeleted : true}
   }
-  
 };
 
 export default adminServices;

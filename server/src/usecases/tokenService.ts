@@ -31,15 +31,13 @@ const tokenService = {
     try {
       console.log('refresh token called')
       const payload = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
-
       if (!payload.id) throw new Error("Invalid token");
-
       const user = await UserRepository.findById(payload.id);
       if (!user) throw new Error("User not found");
 
       const userData = user as IUser;
 
-      const newAccessToken = this.generateToken(userData, "15m");
+      const newAccessToken = this.generateToken(userData, "1d");
 
       return { accessToken: newAccessToken };
     } catch (error) {

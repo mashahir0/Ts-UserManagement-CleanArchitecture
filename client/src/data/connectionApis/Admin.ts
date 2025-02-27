@@ -1,10 +1,9 @@
 import { fetchBaseQuery, BaseQueryFn } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { clearUser } from "../../domain/redux/slilce/userSlice";
 import { clearAdmin } from "../../domain/redux/slilce/adminSlice";
 
 interface RefreshResponse {
-  access_token: string;
+  accessToken: string;
 }
 
 const baseQueryAdmin = fetchBaseQuery({
@@ -19,37 +18,54 @@ const baseQueryAdmin = fetchBaseQuery({
   },
 });
 
+
 export const baseQueryWithAdminReauth: BaseQueryFn<
   string | FetchArgs,
   unknown,
   FetchBaseQueryError
-> = async (args, api, extraOptions) => {
+> = async (args, api, extraOptions = {}) => { // ✅ Provide default value for extraOptions
   let result = await baseQueryAdmin(args, api, extraOptions);
 
-  // Check for 401 status and avoid infinite loop for refresh token endpoint
+
   if (
-    result?.error?.status === 401 &&
+    result?.error?.status === 401 && // If token expired
     (args as FetchArgs).url !== "/refresh-token"
   ) {
-    console.log("Refreshing token for sending request...");
+    console.log("Refreshing token before retrying request...");
 
-    // Call refresh token endpoint
+    // Fetch new access token
     const refreshResult = await baseQueryAdmin(
-      "/refresh-token",
+      {
+        url: "/refresh-token",
+        method: "POST",
+        credentials: "include", // ✅ Ensures cookies are sent
+      },
       api,
       extraOptions
     );
 
+
+
     if (refreshResult.data) {
-      // Save the new access token and retry the original request
-      const newAccessToken = (refreshResult.data as RefreshResponse)
-        .access_token;
+      // ✅ Save the new access token
+      const newAccessToken = (refreshResult.data as RefreshResponse).accessToken; // ✅ Corrected property name
+
       localStorage.setItem("adminToken", newAccessToken);
+
+      // ✅ Ensure `extraOptions` has a `headers` object before using it
+      extraOptions = extraOptions || {}; // Ensure `extraOptions` exists
+      (extraOptions as Record<string, any>).headers = { 
+        ...(extraOptions as Record<string, any>).headers, 
+        authorization: `Bearer ${newAccessToken}` 
+      };
+
+      // ✅ Retry the original request with new token
       result = await baseQueryAdmin(args, api, extraOptions);
     } else {
-      // If refresh fails, remove token and clear user state
+      console.log("Refresh token failed, logging out...");
       localStorage.removeItem("adminToken");
-        api.dispatch(clearAdmin());
+      localStorage.removeItem("refreshToken");
+      api.dispatch(clearAdmin());
       return refreshResult;
     }
   }
