@@ -15,12 +15,6 @@ export const adminApi = createApi({
           body: admin,
         }),
       }),
-    //   getUsers : builder.query<any , void>({
-    //      query :() =>({
-    //         url: '/users',
-    //         // method :'GET'
-    //      })  
-    //   }),
       getUsers: builder.query<any, void>({
         query: () => "/users",
         providesTags:['Users']

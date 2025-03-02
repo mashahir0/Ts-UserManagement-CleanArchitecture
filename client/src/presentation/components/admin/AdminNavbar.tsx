@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { clearAdmin } from "../../../domain/redux/slilce/adminSlice";
 
 const AdminNavbar = () => {
-    const {user} = useSelector((state : RootState) => state.admin)
+    const {admin} = useSelector((state : RootState) => state.admin)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -17,7 +17,7 @@ const AdminNavbar = () => {
 
   return (
     <aside className="w-64 h-screen bg-gray-900 text-white flex flex-col p-5">
-      <h1 className="text-xl font-bold text-center mb-6">{user?.name  || 'admin'}</h1>
+      <h1 className="text-xl font-bold text-center mb-6">{admin?.name  || 'admin'}</h1>
 
       <nav className="space-y-4">
         <Link to="/admin/dashboard" className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-700">

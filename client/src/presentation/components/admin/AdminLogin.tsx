@@ -46,7 +46,7 @@ const AdminLogin = () => {
     try {
         const result = await adminLogin({email, password}).unwrap()
         localStorage.setItem('adminToken',result.accessToken)
-        dispatch(setAdmin({user :result.admin , accessToken : result.accessToken} ))
+        dispatch(setAdmin({admin :result.admin , accessToken : result.accessToken} ))
         console.log(result)
         navigate('/admin/dashboard')
     } catch (error) {

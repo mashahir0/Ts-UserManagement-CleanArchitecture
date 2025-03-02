@@ -11,7 +11,7 @@ const adminController = {
         req.body.email,
         req.body.password
       );
-      res.cookie("refreshToken", refreshToken, {
+      res.cookie("adminRefreshToken", refreshToken, {
         httpOnly: true,  // ✅ Secure cookie (not accessible by JavaScript)
         secure: process.env.NODE_ENV === "production", // ✅ Only use secure cookies in production
         sameSite: "strict", // ✅ Prevent CSRF attacks

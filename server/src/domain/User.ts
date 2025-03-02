@@ -1,13 +1,5 @@
 import { Document } from 'mongoose';
 
-// export interface IUser extends Document {
-//   id?: string;  
-//   name: string;
-//   email: string;
-//   password?: string;
-//   active : "Active" | "Blocked";
-//   role: "user" | "admin";  
-// }
 
 export interface IUser {
   _id: string;

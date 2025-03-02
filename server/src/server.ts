@@ -1,10 +1,10 @@
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import authRoutes from "./infrastructure/routes/userRoutes";
-import adminRoutes from "./infrastructure/routes/adminRoutes";
+import authRoutes from "./interfaces/routes/userRoutes";
+import adminRoutes from "./interfaces/routes/adminRoutes";
 import cookieParser from "cookie-parser";
+import connectDB from "./infrastructure/db";
 
 dotenv.config();
 const app = express();
@@ -15,23 +15,12 @@ const corsOptions = {
   credentials: true,
 };
 
-
-
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use("/api/user", authRoutes);
 app.use("/api/admin", adminRoutes);
 
-const MONGO_URI = process.env.MONGO_URI!;
-
-mongoose
-  .connect(MONGO_URI)
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((error) => {
-    console.error("Error connecting to MongoDB:", error);
-  });
+connectDB();
 
 app.listen(process.env.PORT, () => console.log("Server running on port 3000"));

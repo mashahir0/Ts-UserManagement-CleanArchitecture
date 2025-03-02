@@ -8,7 +8,7 @@ import UserPrivate from "../redux/protect/userPrivate";
 const userRoutes = [
   {
     path: "/",
-    element: <Navigate to="/register" />,
+    element: <Navigate to="/login" />,
   },
   {
     path: "/login",

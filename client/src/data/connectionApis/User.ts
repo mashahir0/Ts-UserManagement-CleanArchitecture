@@ -3,7 +3,7 @@ import { FetchArgs, FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { clearUser } from "../../domain/redux/slilce/userSlice";
 
 interface RefreshResponse {
-  access_token: string;
+  accessToken: string;
 }
 
 const baseQuery = fetchBaseQuery({
@@ -25,28 +25,33 @@ export const baseQueryWithReauth: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  // Check for 401 status and avoid infinite loop for refresh token endpoint
+
   if (
     result?.error?.status === 401 &&
     (args as FetchArgs).url !== "/refresh-token"
   ) {
-    console.log("Refreshing token for sending request...");
 
-    // Call refresh token endpoint
+
+
     const refreshResult = await baseQuery(
-      "/refresh-token",
+      {
+        url: "/refresh-token",
+        method: "POST",
+        credentials: "include", 
+      },
       api,
       extraOptions
     );
 
+    
+
     if (refreshResult.data) {
-      // Save the new access token and retry the original request
+
       const newAccessToken = (refreshResult.data as RefreshResponse)
-        .access_token;
+        .accessToken
       localStorage.setItem("userToken", newAccessToken);
       result = await baseQuery(args, api, extraOptions);
     } else {
-      // If refresh fails, remove token and clear user state
       localStorage.removeItem("userToken");
         api.dispatch(clearUser());
       return refreshResult;

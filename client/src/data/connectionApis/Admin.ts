@@ -23,22 +23,22 @@ export const baseQueryWithAdminReauth: BaseQueryFn<
   string | FetchArgs,
   unknown,
   FetchBaseQueryError
-> = async (args, api, extraOptions = {}) => { // ✅ Provide default value for extraOptions
+> = async (args, api, extraOptions = {}) => { 
   let result = await baseQueryAdmin(args, api, extraOptions);
 
 
   if (
-    result?.error?.status === 401 && // If token expired
+    result?.error?.status === 401 && 
     (args as FetchArgs).url !== "/refresh-token"
   ) {
     console.log("Refreshing token before retrying request...");
 
-    // Fetch new access token
+
     const refreshResult = await baseQueryAdmin(
       {
         url: "/refresh-token",
         method: "POST",
-        credentials: "include", // ✅ Ensures cookies are sent
+        credentials: "include", 
       },
       api,
       extraOptions
@@ -47,19 +47,19 @@ export const baseQueryWithAdminReauth: BaseQueryFn<
 
 
     if (refreshResult.data) {
-      // ✅ Save the new access token
-      const newAccessToken = (refreshResult.data as RefreshResponse).accessToken; // ✅ Corrected property name
+
+      const newAccessToken = (refreshResult.data as RefreshResponse).accessToken;
 
       localStorage.setItem("adminToken", newAccessToken);
 
-      // ✅ Ensure `extraOptions` has a `headers` object before using it
-      extraOptions = extraOptions || {}; // Ensure `extraOptions` exists
+
+      extraOptions = extraOptions || {}; 
       (extraOptions as Record<string, any>).headers = { 
         ...(extraOptions as Record<string, any>).headers, 
         authorization: `Bearer ${newAccessToken}` 
       };
 
-      // ✅ Retry the original request with new token
+
       result = await baseQueryAdmin(args, api, extraOptions);
     } else {
       console.log("Refresh token failed, logging out...");

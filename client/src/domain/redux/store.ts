@@ -16,7 +16,7 @@ const userPersistConfig = {
 const  adminPersistConfig= {
   key: "admin",
   storage,
-  whitelist: ["user"], 
+  whitelist: ["admin"], 
 };
 
 const persistedUserReducer = persistReducer(userPersistConfig, userReducer);

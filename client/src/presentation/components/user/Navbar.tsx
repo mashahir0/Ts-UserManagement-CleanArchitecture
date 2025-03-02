@@ -14,13 +14,13 @@ const Navbar: React.FC = () => {
   const [isDropdown2Open, setIsDropdown2Open] = useState(false)
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const {user} = useSelector((state : RootState ) => state.user)
-  console.log(user);
   
   const dispatch =  useDispatch()
   const navigate = useNavigate()
   const handleLogout = () => {
     localStorage.removeItem('userToken')
     dispatch(clearUser())
+    window.location.reload();
     navigate('/login')
   }
 

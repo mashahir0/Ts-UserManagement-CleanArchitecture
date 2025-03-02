@@ -23,9 +23,10 @@ const authController = {
         req.body.password
       );
       res.cookie("userRefreshToken", refreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "strict",
+        httpOnly: true, // ✅ Secure cookie (not accessible by JavaScript)
+        secure: process.env.NODE_ENV === "production", // ✅ Only use secure cookies in production
+        sameSite: "strict", // ✅ Prevent CSRF attacks
+        path: "/api/user/refresh-token", // ✅ Only send this cookie to the refresh route
       });
       res.status(200).json({ user, accessToken });
     } catch (error: any) {
@@ -35,36 +36,35 @@ const authController = {
   async googleAuth(req: Request, res: Response) {
     try {
       const { token } = req.body; // Expect access token from frontend
-  
+
       if (!token) {
         return res.status(400).json({ error: "No Google token provided" });
       }
-  
-      const { accessToken, refreshToken, user } = await userService.googleLogin(token);
-  
+
+      const { accessToken, refreshToken, user } = await userService.googleLogin(
+        token
+      );
+
       // Set refresh token in an HTTP-only cookie
       res.cookie("userRefreshToken", refreshToken, {
-        httpOnly: true,
-        secure: true, // Set to true in production (HTTPS)
-        sameSite: "strict",
+        httpOnly: true, // ✅ Secure cookie (not accessible by JavaScript)
+        secure: process.env.NODE_ENV === "production", // ✅ Only use secure cookies in production
+        sameSite: "strict", // ✅ Prevent CSRF attacks
+        path: "/api/user/refresh-token", // ✅ Only send this cookie to the refresh route
       });
-  
       return res.status(200).json({ accessToken, user });
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }
   },
-  
 
   async refreshToken(req: Request, res: Response) {
     try {
-      
-      const { refreshToken } = req.cookies;
-
-      if (!refreshToken)
+      const { userRefreshToken } = req.cookies;
+      if (!userRefreshToken)
         return res.status(401).json({ error: "No token provided" });
 
-      const newToken = await tokenService.refreshToken(refreshToken);
+      const newToken = await tokenService.refreshToken(userRefreshToken);
 
       res.status(200).json(newToken);
     } catch (error: any) {
@@ -75,7 +75,6 @@ const authController = {
   async getUserData(req: AuthenticatedRequest, res: Response) {
     try {
       const userId = req.user?.id;
-      console.log("from controller", userId);
 
       if (!userId) {
         return res.status(401).json({ error: "Unauthorized" });

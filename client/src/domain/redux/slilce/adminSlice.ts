@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Define the initial state
 interface UserState {
-  user: {
+  admin: {
     email: string;
     name: string;
     role: string;
@@ -13,7 +13,7 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  user: null,
+  admin: null,
   accessToken: null,
 };
 
@@ -22,16 +22,16 @@ const adminSlice = createSlice({
   initialState,
   reducers: {
     setAdmin: (state: UserState, action: PayloadAction<UserState>) => { 
-        if (action.payload.user) {
-          const { _id, ...restUser } = action.payload.user; 
-          state.user = restUser;  // ✅ Store user without `_id`
+        if (action.payload.admin) {
+          const { _id, ...restUser } = action.payload.admin; 
+          state.admin = restUser;  // ✅ Store user without `_id`
         } else {
-          state.user = null;
+          state.admin = null;
         }
         state.accessToken = action.payload.accessToken;
       },
     clearAdmin: (state) => {
-      state.user = null;
+      state.admin = null;
       state.accessToken = null;
     },
   },
