@@ -3,7 +3,7 @@ import userService from "../../usecases/userService";
 import tokenService from "../../usecases/tokenService";
 
 interface AuthenticatedRequest extends Request {
-  user?: { id: string; name: string; email: string; role: string }; // Define the full user object
+  user?: { id: string; name: string; email: string; role: string }; 
 }
 
 const authController = {
@@ -23,10 +23,10 @@ const authController = {
         req.body.password
       );
       res.cookie("userRefreshToken", refreshToken, {
-        httpOnly: true, // ✅ Secure cookie (not accessible by JavaScript)
-        secure: process.env.NODE_ENV === "production", // ✅ Only use secure cookies in production
-        sameSite: "strict", // ✅ Prevent CSRF attacks
-        path: "/api/user/refresh-token", // ✅ Only send this cookie to the refresh route
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === "production", 
+        sameSite: "strict", 
+        path: "/api/user/refresh-token", 
       });
       res.status(200).json({ user, accessToken });
     } catch (error: any) {
@@ -45,12 +45,12 @@ const authController = {
         token
       );
 
-      // Set refresh token in an HTTP-only cookie
+      
       res.cookie("userRefreshToken", refreshToken, {
-        httpOnly: true, // ✅ Secure cookie (not accessible by JavaScript)
-        secure: process.env.NODE_ENV === "production", // ✅ Only use secure cookies in production
-        sameSite: "strict", // ✅ Prevent CSRF attacks
-        path: "/api/user/refresh-token", // ✅ Only send this cookie to the refresh route
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === "production", 
+        sameSite: "strict", 
+        path: "/api/user/refresh-token", 
       });
       return res.status(200).json({ accessToken, user });
     } catch (error: any) {

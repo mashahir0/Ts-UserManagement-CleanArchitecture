@@ -5,6 +5,7 @@ import adminReducer from '../redux/slilce/adminSlice'
 import { adminApi } from "../../data/api/adminApi";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { postApi } from "../../data/api/postApi";
 
 
 
@@ -26,13 +27,15 @@ export const store = configureStore({
   reducer: {
     [userApi.reducerPath]: userApi.reducer,
     [adminApi.reducerPath] : adminApi.reducer,
+    [postApi.reducerPath] : postApi.reducer,
     user : persistedUserReducer,
     admin: persistedAdminReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
   .concat(userApi.middleware)
-  .concat(adminApi.middleware),
+  .concat(adminApi.middleware)
+  .concat(postApi.middleware),
 });
 
 

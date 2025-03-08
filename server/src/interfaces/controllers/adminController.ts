@@ -12,10 +12,10 @@ const adminController = {
         req.body.password
       );
       res.cookie("adminRefreshToken", refreshToken, {
-        httpOnly: true,  // ✅ Secure cookie (not accessible by JavaScript)
-        secure: process.env.NODE_ENV === "production", // ✅ Only use secure cookies in production
-        sameSite: "strict", // ✅ Prevent CSRF attacks
-        path: "/api/admin/refresh-token", // ✅ Only send this cookie to the refresh route
+        httpOnly: true,  
+        secure: process.env.NODE_ENV === "production", 
+        sameSite: "strict", 
+        path: "/api/admin/refresh-token", 
       });
       res.status(200).json({ admin, accessToken });
     } catch (error: any) {

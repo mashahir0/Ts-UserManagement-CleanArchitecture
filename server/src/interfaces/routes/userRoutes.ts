@@ -5,13 +5,12 @@ import {
   authorizeRoles,
   verifyToken,
 } from "../middlewares/authMiddleware";
-import postController from "../controllers/postController";
-
+const app = express()
 const router = express.Router();
 router.post("/refresh-token", userController.refreshToken);
 
 router.post("/register", userController.register);
-router.post("/login", userController.login);
+router.post("/login",loginLimiter,userController.login);
 
 router.post("/auth/google", userController.googleAuth);
 
@@ -23,6 +22,7 @@ router.get(
 );
 
 
-router.post('/add-post',postController.addPost)
+
+
 
 export default router;

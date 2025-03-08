@@ -12,6 +12,6 @@ export interface IPost {
 export class Post {
     constructor(
         public userId : string,
-       public text : string
+        public text : string
     ){}
 }
