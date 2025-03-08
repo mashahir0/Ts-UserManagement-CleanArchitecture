@@ -1,15 +1,7 @@
-// models/userModel.ts
-import mongoose, { Model, Document } from "mongoose";
+
+import mongoose from "mongoose";
 import { IUser } from "../../domain/User";
-// Define the IUser interface for the Mongoose document
-// export interface IUser {
-//   _id: string;
-//   name: string;
-//   email: string;
-//   password: string;
-//   active : "Active" | "Blocked";
-//   role: 'user' | 'admin';
-// }
+
 
 // Define the Mongoose schema
 const userSchema = new mongoose.Schema<IUser>({

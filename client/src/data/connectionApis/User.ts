@@ -53,7 +53,7 @@ export const baseQueryWithReauth: BaseQueryFn<
       result = await baseQuery(args, api, extraOptions);
     } else {
       localStorage.removeItem("userToken");
-        api.dispatch(clearUser());
+      api.dispatch(clearUser());
       return refreshResult;
     }
   }

@@ -13,10 +13,10 @@ const UserRepository = {
     return await UserModel.findById(id).select('-password').exec();
   },
   async getAllUsers() {
-    return await UserModel.find();
+    return await UserModel.find().select('-password').exec();
   },
   async findAndDelete(id :string){
-    return await userModel.findByIdAndDelete(id)
+    return await userModel.findByIdAndDelete(id)  
   }
 };
 

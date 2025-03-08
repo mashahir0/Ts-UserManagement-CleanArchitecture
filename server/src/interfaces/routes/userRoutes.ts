@@ -5,6 +5,7 @@ import {
   authorizeRoles,
   verifyToken,
 } from "../middlewares/authMiddleware";
+import postController from "../controllers/postController";
 
 const router = express.Router();
 router.post("/refresh-token", userController.refreshToken);
@@ -20,5 +21,8 @@ router.get(
   authorizeRoles(["user", "admin"]),
   userController.getUserData
 );
+
+
+router.post('/add-post',postController.addPost)
 
 export default router;
