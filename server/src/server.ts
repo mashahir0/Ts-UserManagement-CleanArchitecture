@@ -5,7 +5,7 @@ import authRoutes from "./interfaces/routes/userRoutes";
 import adminRoutes from "./interfaces/routes/adminRoutes";
 import postRoutes from './interfaces/routes/postRoutes'
 import cookieParser from "cookie-parser";
-import connectDB from "./infrastructure/db";
+import connectDB from "./config/db";
 
 dotenv.config();
 const app = express();

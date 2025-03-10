@@ -1,10 +1,7 @@
 import express from "express";
 import userController from "../controllers/userController";
-import { loginLimiter } from "../middlewares/protectionMiddleware";
-import {
-  authorizeRoles,
-  verifyToken,
-} from "../middlewares/authMiddleware";
+import { loginLimiter } from "../../infrastructure/middlewares/protectionMiddleware";
+import { authorizeRoles, verifyToken } from "../../infrastructure/middlewares/authMiddleware";
 const app = express()
 const router = express.Router();
 router.post("/refresh-token", userController.refreshToken);

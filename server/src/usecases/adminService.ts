@@ -2,7 +2,7 @@ import { IUser } from "../domain/User";
 import tokenService from "./tokenService";
 import UserRepository from "../infrastructure/repositories/userRepository";
 import bcrypt from "bcryptjs";
-import userModel from "../infrastructure/models/userModel";
+import userModel from "../domain/models/userModel";
 
 const adminServices = {
   async login(email: string, password: string) {

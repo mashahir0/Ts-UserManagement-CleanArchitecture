@@ -1,7 +1,7 @@
 import express from "express";
 import adminController from "../controllers/adminController";
 import tokenService from "../../usecases/tokenService";
-import {  authorizeRoles, verifyToken } from "../middlewares/authMiddleware";
+import { authorizeRoles, verifyToken } from "../../infrastructure/middlewares/authMiddleware";
 
 const router = express.Router();
 router.post('/login',adminController.login)

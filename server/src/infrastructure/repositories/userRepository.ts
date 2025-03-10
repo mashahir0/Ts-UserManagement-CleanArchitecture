@@ -1,6 +1,6 @@
-import UserModel from "../models/userModel";
+import UserModel from "../../domain/models/userModel";
 import { IUser, User } from "../../domain/User";
-import userModel from "../models/userModel";
+import userModel from "../../domain/models/userModel";
 
 const UserRepository = {
   async save(user: User) {

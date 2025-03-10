@@ -1,9 +1,9 @@
 
 import mongoose from "mongoose";
-import { IUser } from "../../domain/User";
+import { IUser } from "../User";
 
 
-// Define the Mongoose schema
+
 const userSchema = new mongoose.Schema<IUser>({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema<IUser>({
   role: { type: String, default: 'user' },
 });
 
-// Create the Mongoose model
+
 const userModel = mongoose.model<IUser>('User', userSchema);
 
 export default userModel;

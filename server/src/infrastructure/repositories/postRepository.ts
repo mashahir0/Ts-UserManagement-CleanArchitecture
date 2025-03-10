@@ -1,5 +1,5 @@
 import { IPost } from "../../domain/Post";
-import postModel from "../models/postModel";
+import postModel from "../../domain/models/postModel";
 
 const postRepository =  {
  async save(post : IPost){
