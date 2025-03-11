@@ -17,7 +17,7 @@ const adminServices = {
     const admin = await UserRepository.findById(user.id)
     const userData = admin as IUser
 
-    const accessToken = tokenService.generateToken(userData, "15m ");
+    const accessToken = tokenService.generateToken(userData, "15m");
     const refreshToken = tokenService.generateToken(userData, "7d");
     return { admin: userData, accessToken, refreshToken };
   },
